@@ -20,14 +20,14 @@ public class PlayerMovement : MonoBehaviour
     public Camera playerCam;
     public MeshRenderer playerMesh;
     public Transform orientation;
-    [HideInInspector] public Rigidbody rb;
+    [HideInInspector] public Rigidbody rb; // Properties
     
     [Header("Player Attributes")]
     public float currentHealth;
     public bool bIsMoving;
     
     //Input
-    [HideInInspector] public Player_IA InputAction;
+    [HideInInspector] public Player_IA InputAction; // Should look into using Properties instead
     private Vector2 moveInput;
     private Vector2 lookInput;
     private float xRotation = 0f;
