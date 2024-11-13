@@ -7,6 +7,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("Player Settings")]
     public float groundAcceleration = 1000f;
     public float airAcceleration = 500f;
+    [SerializeField] private float movingDrag = 0.2f;
+    [SerializeField] private float stopDrag = 10f;
     public float jumpForce = 1000f;
     public float cameraSensitivity = 1f;
     public float maxCameraAngle = 80f;
@@ -18,14 +20,14 @@ public class PlayerMovement : MonoBehaviour
     public Camera playerCam;
     public MeshRenderer playerMesh;
     public Transform orientation;
+    [HideInInspector] public Rigidbody rb;
     
     [Header("Player Attributes")]
     public float currentHealth;
-
-    private Rigidbody rb;
+    public bool bIsMoving;
     
     //Input
-    private Player_IA InputAction;
+    [HideInInspector] public Player_IA InputAction;
     private Vector2 moveInput;
     private Vector2 lookInput;
     private float xRotation = 0f;
@@ -38,8 +40,10 @@ public class PlayerMovement : MonoBehaviour
 
         InputAction.Player.Movement.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
         InputAction.Player.Movement.canceled += ctx => moveInput = Vector2.zero;
+       
         InputAction.Player.Camera.performed += ctx => lookInput = ctx.ReadValue<Vector2>();
         InputAction.Player.Camera.canceled += ctx => lookInput = Vector2.zero;
+       
         InputAction.Player.Jump.performed += ctx => HandleJump();
 
         rb = GetComponent<Rigidbody>();
@@ -53,8 +57,11 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     { 
         orientation.rotation = Quaternion.Euler(0, playerCam.transform.rotation.y, 0);
-       HandleMovement();
-       HandleCameraMovement();
+        
+        // Function calls
+        HandleMovement();
+        HandleDrag();
+        HandleCameraMovement();
     }
 
     public bool bIsGrounded() // works
@@ -62,10 +69,6 @@ public class PlayerMovement : MonoBehaviour
         Vector3 lineStart = playerMesh.transform.position;
         Vector3 lineEnd = -playerMesh.transform.up;
         bool grounded = Physics.Raycast(lineStart, lineEnd, playerMesh.localBounds.size.y / 2 + extraGroundedHeight);
-        #if UNITY_EDITOR
-        Debug.DrawLine(lineStart, lineEnd * playerMesh.localBounds.size.y / 2, Color.red, 5f);
-        Debug.Log(grounded);
-        #endif
         return grounded;
     }
     void HandleMovement()
@@ -86,6 +89,20 @@ public class PlayerMovement : MonoBehaviour
         if (rb.velocity.magnitude > maxVelocity)
         {
             rb.velocity = rb.velocity.normalized * maxVelocity;
+        }
+    }
+
+    void HandleDrag()
+    {
+        if (InputAction.Player.Movement.ReadValue<Vector2>() == Vector2.zero && bIsGrounded())
+        {
+            bIsMoving = false;
+            rb.drag = stopDrag;
+        }
+        else
+        {
+            bIsMoving = true;
+            rb.drag = movingDrag;
         }
     }
     void HandleJump()
