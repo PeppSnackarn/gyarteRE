@@ -6,7 +6,15 @@ using UnityEngine;
 public class PlayerData : MonoBehaviour
 {
     public static PlayerData Instance;
-    public PlayerMovement playerMovement;
+    private PlayerMovement playerMovement;
+    private PlayerHealth playerHealth;
+
+    #region Properties
+
+    public PlayerMovement PlayerMovement => playerMovement;
+    public PlayerHealth PlayerHealth => playerHealth;
+
+    #endregion
 
     private void Awake()
     {
@@ -23,5 +31,6 @@ public class PlayerData : MonoBehaviour
     private void Start()
     {
         playerMovement = GetComponent<PlayerMovement>();
+        playerHealth = GetComponent<PlayerHealth>();
     }
 }

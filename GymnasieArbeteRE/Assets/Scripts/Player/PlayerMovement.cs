@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
     public bool bIsMoving;
     
     //Input
-    private Player_IA InputAction = GameManager.Instance.playerInput;
+    private Player_IA InputAction;
     private Vector2 moveInput;
     private Vector2 lookInput;
     private float xRotation = 0f;
@@ -40,8 +40,7 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         //Init
-        //InputAction = new Player_IA();
-        InputAction.Enable();
+        InputAction = GameManager.Instance.playerInput;
 
         InputAction.Player.Movement.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
         InputAction.Player.Movement.canceled += ctx => moveInput = Vector2.zero;

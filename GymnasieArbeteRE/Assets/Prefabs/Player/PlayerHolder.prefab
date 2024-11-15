@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9083555081799094934}
   - component: {fileID: 4903239228388707384}
+  - component: {fileID: 4628691582874234275}
   - component: {fileID: 4787159299057132395}
   - component: {fileID: 6602447641867362854}
   m_Layer: 0
@@ -48,8 +49,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c5f4d38541905a4d8c66d72231ee2c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Instance: {fileID: 0}
-  playerMovement: {fileID: 0}
+--- !u!114 &4628691582874234275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1225529457778666369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3b13c9e08eb0b44ba3ac9e192a84602, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 0
 --- !u!114 &4787159299057132395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,13 +82,11 @@ MonoBehaviour:
   jumpForce: 6
   cameraSensitivity: 0.4
   maxCameraAngle: 80
-  extraGroundedHeight: 0.5
-  maxHealth: 100
+  extraGroundedHeight: 1
   maxVelocity: 30
   playerCam: {fileID: 3520882077610617902}
   playerMesh: {fileID: 7994871894024863286}
   orientation: {fileID: 6038094063057434550}
-  currentHealth: 0
   bIsMoving: 0
 --- !u!54 &6602447641867362854
 Rigidbody:
