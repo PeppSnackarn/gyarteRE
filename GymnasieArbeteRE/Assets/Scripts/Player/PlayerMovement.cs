@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -13,29 +14,33 @@ public class PlayerMovement : MonoBehaviour
     public float cameraSensitivity = 1f;
     public float maxCameraAngle = 80f;
     public float extraGroundedHeight = 2f;
-    public float maxHealth = 100f;
     public float maxVelocity = 10f;
     
     [Header("Player Components")]
     public Camera playerCam;
     public MeshRenderer playerMesh;
     public Transform orientation;
-    [HideInInspector] public Rigidbody rb; // Properties
+    private Rigidbody rb;
     
     [Header("Player Attributes")]
-    public float currentHealth;
     public bool bIsMoving;
     
     //Input
-    [HideInInspector] public Player_IA InputAction; // Should look into using Properties instead
+    private Player_IA InputAction = GameManager.Instance.playerInput;
     private Vector2 moveInput;
     private Vector2 lookInput;
     private float xRotation = 0f;
     private float yRotation = 0f;
+
+    #region Properties
+
+    public Rigidbody rigidbody => rb;
+
+    #endregion
     private void Start()
     {
         //Init
-        InputAction = new Player_IA();
+        //InputAction = new Player_IA();
         InputAction.Enable();
 
         InputAction.Player.Movement.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
@@ -47,11 +52,17 @@ public class PlayerMovement : MonoBehaviour
         InputAction.Player.Jump.performed += ctx => HandleJump();
 
         rb = GetComponent<Rigidbody>();
-        currentHealth = maxHealth;
-        
-        //Default settings
-        Cursor.lockState = CursorLockMode.Locked;
+    }
 
+    private void OnDestroy() // called when unloaded
+    {
+        InputAction.Player.Movement.performed -= ctx => moveInput = ctx.ReadValue<Vector2>();
+        InputAction.Player.Movement.canceled -= ctx => moveInput = Vector2.zero;
+       
+        InputAction.Player.Camera.performed -= ctx => lookInput = ctx.ReadValue<Vector2>();
+        InputAction.Player.Camera.canceled -= ctx => lookInput = Vector2.zero;
+       
+        InputAction.Player.Jump.performed -= ctx => HandleJump();
     }
 
     void Update()
@@ -64,21 +75,23 @@ public class PlayerMovement : MonoBehaviour
         HandleCameraMovement();
     }
 
-    public bool bIsGrounded() // works
+    public bool BIsGrounded() // works
     {
-        Vector3 lineStart = playerMesh.transform.position;
-        Vector3 lineEnd = -playerMesh.transform.up;
+        Transform meshTransform = playerMesh.transform;
+        Vector3 lineStart = meshTransform.position;
+        Vector3 lineEnd = -meshTransform.up;
         bool grounded = Physics.Raycast(lineStart, lineEnd, playerMesh.localBounds.size.y / 2 + extraGroundedHeight);
         return grounded;
     }
     void HandleMovement()
     {
-        Vector3 forward = playerCam.transform.forward;
+        Transform camTransform = playerCam.transform;
+        Vector3 forward = camTransform.forward;
         forward.y = 0f;
-        Vector3 right = playerCam.transform.right;
+        Vector3 right = camTransform.right;
         right.y = 0f;
         Vector3 moveVector = (forward * moveInput.y + right * moveInput.x);
-        if (bIsGrounded())
+        if (BIsGrounded())
         {
             rb.AddForce(moveVector.normalized * (Time.deltaTime * groundAcceleration), ForceMode.Force); // X, Z
         }
@@ -94,7 +107,7 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleDrag()
     {
-        if (InputAction.Player.Movement.ReadValue<Vector2>() == Vector2.zero && bIsGrounded())
+        if (InputAction.Player.Movement.ReadValue<Vector2>() == Vector2.zero && BIsGrounded())
         {
             bIsMoving = false;
             rb.drag = stopDrag;
@@ -107,16 +120,22 @@ public class PlayerMovement : MonoBehaviour
     }
     void HandleJump()
     {
-        Vector3 up = new Vector3(0, 1, 0);
-        rb.AddForce(up * jumpForce, ForceMode.Impulse);
+        if (rb)
+        {
+            Vector3 up = new Vector3(0, 1, 0);
+            rb.AddForce(up * jumpForce, ForceMode.Impulse);
+        }
     }
     void HandleCameraMovement()
     {
-        Vector2 mouseDelta = lookInput * cameraSensitivity;
-        xRotation -= mouseDelta.y;
-        yRotation += mouseDelta.x;
-        xRotation = Mathf.Clamp(xRotation, -maxCameraAngle, maxCameraAngle);
+        if (GameManager.Instance.currentState != GameManager.gameState.PauseState)
+        {
+            Vector2 mouseDelta = lookInput * cameraSensitivity;
+            xRotation -= mouseDelta.y;
+            yRotation += mouseDelta.x;
+            xRotation = Mathf.Clamp(xRotation, -maxCameraAngle, maxCameraAngle);
         
-        playerCam.transform.localRotation = Quaternion.Euler(xRotation, yRotation, 0f);
+            playerCam.transform.localRotation = Quaternion.Euler(xRotation, yRotation, 0f);
+        }
     }
 }

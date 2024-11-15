@@ -10,6 +10,6 @@ public class PlayMenu : MonoBehaviour
     private void Update()
     { 
         if(PlayerData.Instance && speedText)
-            speedText.text = Mathf.RoundToInt(PlayerData.Instance.playerMovement.rb.velocity.magnitude).ToString();
+            speedText.text = Mathf.RoundToInt(PlayerData.Instance.playerMovement.rigidbody.velocity.magnitude).ToString();
     }
 }

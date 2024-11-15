@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class UIManager : MonoBehaviour
 {
    public static UIManager Instance;
+   private Player_IA InputAction;
    
    [Header("UI Objects")]
    [SerializeField] private GameObject mainMenuUI;
@@ -18,15 +19,19 @@ public class UIManager : MonoBehaviour
       if (Instance == null)
       {
          Instance = this;
+         DontDestroyOnLoad(this);
          GameManager.onGameStateChanged += UpdateCurrentUI;
-         PlayerData.Instance.playerMovement.InputAction.Player.Pause.performed += ctx => PauseGame(); // need to find player;
-         // Player spawns in second scene, rework this or bind an event
       }
       else
       {
          Destroy(this);
       }
-      DontDestroyOnLoad(Instance);
+   }
+
+   private void Start()
+   {
+      InputAction = GameManager.Instance.playerInput;
+      InputAction.Player.Pause.performed += ctx => PauseGame();
    }
 
    private void OnDestroy()
@@ -46,6 +51,10 @@ public class UIManager : MonoBehaviour
       if (GameManager.Instance.currentState == GameManager.gameState.PlayState)
       {
          GameManager.Instance.UpdateGameState(GameManager.gameState.PauseState);
+      }
+      else if (GameManager.Instance.currentState == GameManager.gameState.PauseState)
+      {
+         GameManager.Instance.UpdateGameState(GameManager.gameState.PlayState);
       }
    }
 }
