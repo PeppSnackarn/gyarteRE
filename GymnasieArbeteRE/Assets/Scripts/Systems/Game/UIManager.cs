@@ -19,13 +19,13 @@ public class UIManager : MonoBehaviour
       if (Instance == null)
       {
          Instance = this;
-         DontDestroyOnLoad(this);
          GameManager.onGameStateChanged += UpdateCurrentUI;
       }
       else
       {
-         Destroy(this);
+         Destroy(gameObject);
       }
+      DontDestroyOnLoad(gameObject);
    }
 
    private void Start()
