@@ -7,12 +7,12 @@ public class PlayerData : MonoBehaviour
 {
     public static PlayerData Instance;
     private PlayerMovement playerMovement;
-    private PlayerHealth playerHealth;
+    private HealthSystem playerHealth;
 
     #region Properties
 
     public PlayerMovement PlayerMovement => playerMovement;
-    public PlayerHealth PlayerHealth => playerHealth;
+    public HealthSystem PlayerHealth => playerHealth;
 
     #endregion
 
@@ -31,6 +31,6 @@ public class PlayerData : MonoBehaviour
     private void Start()
     {
         playerMovement = GetComponent<PlayerMovement>();
-        playerHealth = GetComponent<PlayerHealth>();
+        playerHealth = GetComponent<HealthSystem>();
     }
 }
