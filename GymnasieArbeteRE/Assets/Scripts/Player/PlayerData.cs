@@ -8,11 +8,13 @@ public class PlayerData : MonoBehaviour
     public static PlayerData Instance;
     private PlayerMovement playerMovement;
     private HealthSystem playerHealth;
+    private WeaponManager weaponManager;
 
     #region Properties
 
     public PlayerMovement PlayerMovement => playerMovement;
     public HealthSystem PlayerHealth => playerHealth;
+    public WeaponManager WeaponManager => weaponManager;
 
     #endregion
 
@@ -32,5 +34,6 @@ public class PlayerData : MonoBehaviour
     {
         playerMovement = GetComponent<PlayerMovement>();
         playerHealth = GetComponent<HealthSystem>();
+        weaponManager = GetComponentInChildren<WeaponManager>();
     }
 }
