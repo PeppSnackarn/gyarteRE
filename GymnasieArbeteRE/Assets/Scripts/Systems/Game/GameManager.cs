@@ -52,11 +52,13 @@ public class GameManager : MonoBehaviour
             case gameState.PlayState:
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
+                InputAction.Player.Shoot.Enable();
                 Time.timeScale = 1.0f;
                 break;
             case gameState.PauseState:
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
+                InputAction.Player.Shoot.Disable();
                 Time.timeScale = 0.0f;
                 break;
         }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
 
 public class WeaponBase : MonoBehaviour
 {
@@ -64,15 +65,15 @@ public class WeaponBase : MonoBehaviour
             {
                 for (int i = 0; i < pelletAmount; i++)
                 {
-                    Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hit, range);
+                    Physics.Raycast(playerCam.transform.position, GetShootingDirection(), out RaycastHit hit, range);
                     if (hit.transform)
                     {
+                        Debug.Log(hit.transform.name);
                         if (hit.transform.GetComponent<HealthSystem>())
                         {
                             HealthSystem hitHS = hit.transform.GetComponent<HealthSystem>();
                             if (hitHS != playerData.PlayerHealth)
                             {
-                                Debug.LogWarning("Damaged");
                                 hitHS.TakeDamage(damage);
                             }
                         }
@@ -82,11 +83,21 @@ public class WeaponBase : MonoBehaviour
                     }
                     playerData.PlayerMovement.rigidbody.AddForce(-playerCam.transform.forward * knockbackForce, forceMode);
                 }
-                Debug.Log("Shot!");
                 currentAmmo--;
                 timeAtLastShot = Time.time + fireRate;
             }
         }
+    }
+
+    Vector3 GetShootingDirection()
+    {
+        Vector3 targetPos = playerCam.transform.position + playerCam.transform.forward * range;
+        targetPos = new Vector3(
+            targetPos.x + Random.Range(-firingError, firingError),
+            targetPos.y + Random.Range(-firingError, firingError),
+            targetPos.z + Random.Range(-firingError, firingError));
+        Vector3 direction = targetPos - playerCam.transform.position;
+        return direction.normalized;
     }
 
     void Reload(InputAction.CallbackContext ctx)
