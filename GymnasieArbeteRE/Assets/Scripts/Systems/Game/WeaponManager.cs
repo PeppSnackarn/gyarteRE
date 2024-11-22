@@ -36,7 +36,7 @@ public class WeaponManager : MonoBehaviour
    }
    public void InstantiateWeapon(GameObject weapon)
    {
-      GameObject obj = Instantiate(weapon, PlayerData.Instance.HandPos, weapon.transform.rotation);
+      GameObject obj = Instantiate(weapon, PlayerData.Instance.HandPos, weapon.transform.rotation); // Wrong rotation
       obj.transform.SetParent(PlayerData.Instance.Hand);
       
    }
