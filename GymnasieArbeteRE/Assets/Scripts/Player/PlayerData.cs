@@ -9,12 +9,17 @@ public class PlayerData : MonoBehaviour
     private PlayerMovement playerMovement;
     private HealthSystem playerHealth;
     private WeaponManager weaponManager;
+    [SerializeField] private Transform hand; 
 
     #region Properties
 
     public PlayerMovement PlayerMovement => playerMovement;
     public HealthSystem PlayerHealth => playerHealth;
     public WeaponManager WeaponManager => weaponManager;
+
+    public Vector3 HandPos => hand.position;
+
+    public Transform Hand => hand;
 
     #endregion
 
@@ -29,7 +34,12 @@ public class PlayerData : MonoBehaviour
             Destroy(this);
         }
     }
-
+    private void OnDestroy()
+    {
+        Instance = null;
+        if(weaponManager)
+            weaponManager.ClearList();
+    }
     private void Start()
     {
         playerMovement = GetComponent<PlayerMovement>();

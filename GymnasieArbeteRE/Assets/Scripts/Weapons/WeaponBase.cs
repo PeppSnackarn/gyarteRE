@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class WeaponBase : MonoBehaviour
 {
@@ -37,7 +38,7 @@ public class WeaponBase : MonoBehaviour
 
     #endregion
 
-    private void Start()
+    protected virtual void Start()
     {
         playerData = PlayerData.Instance;
         playerCam = playerData.PlayerMovement.playerCam;
@@ -45,11 +46,17 @@ public class WeaponBase : MonoBehaviour
         currentAmmo = maxAmmo;
         
         //Binding input
-        playerInput.Player.Shoot.performed += ctx => Shoot();
-        playerInput.Player.Reload.performed += ctx => Reload();
+        playerInput.Player.Shoot.performed += Shoot;
+        playerInput.Player.Reload.performed += Reload;
     }
-    
-    void Shoot()
+
+    private void OnDestroy()
+    {
+        playerInput.Player.Shoot.performed -= Shoot;
+        playerInput.Player.Reload.performed -= Reload;
+    }
+
+    void Shoot(InputAction.CallbackContext ctx)
     {
         if (Time.time > timeAtLastShot && !isReloading)
         {
@@ -82,7 +89,7 @@ public class WeaponBase : MonoBehaviour
         }
     }
 
-    void Reload()
+    void Reload(InputAction.CallbackContext ctx)
     {
         if (currentAmmo < maxAmmo)
         {

@@ -1,6 +1,5 @@
-using System;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.InputSystem;
 
 
 public class PlayerMovement : MonoBehaviour
@@ -51,7 +50,7 @@ public class PlayerMovement : MonoBehaviour
         InputAction.Player.Camera.performed += ctx => lookInput = ctx.ReadValue<Vector2>();
         InputAction.Player.Camera.canceled += ctx => lookInput = Vector2.zero;
        
-        InputAction.Player.Jump.performed += ctx => HandleJump();
+        InputAction.Player.Jump.performed += HandleJump;
 
         rb = GetComponent<Rigidbody>();
         jumpsLeft = maxJumps;
@@ -65,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
         InputAction.Player.Camera.performed -= ctx => lookInput = ctx.ReadValue<Vector2>();
         InputAction.Player.Camera.canceled -= ctx => lookInput = Vector2.zero;
        
-        InputAction.Player.Jump.performed -= ctx => HandleJump();
+        InputAction.Player.Jump.performed -= HandleJump;
     }
 
     void Update()
@@ -125,7 +124,7 @@ public class PlayerMovement : MonoBehaviour
             rb.drag = movingDrag;
         }
     }
-    void HandleJump()
+    void HandleJump(InputAction.CallbackContext ctx)
     {
         if (rb && bGrounded)
         {

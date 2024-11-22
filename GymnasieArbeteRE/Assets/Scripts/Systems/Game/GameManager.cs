@@ -10,11 +10,12 @@ public class GameManager : MonoBehaviour
     public gameState currentState;
     private Player_IA InputAction;
     private bool bHasInput;
+    public static event Action<gameState> onGameStateChanged; 
 
     #region Properties
     public Player_IA playerInput => InputAction;
     #endregion
-    public static event Action<gameState> onGameStateChanged; 
+   
 
     private void Awake()
     {

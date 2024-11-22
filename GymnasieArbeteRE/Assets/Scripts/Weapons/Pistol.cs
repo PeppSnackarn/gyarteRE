@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class Pistol : WeaponBase
 {
-   
+    protected override void Start()
+    {
+        base.Start();
+    }
 }
