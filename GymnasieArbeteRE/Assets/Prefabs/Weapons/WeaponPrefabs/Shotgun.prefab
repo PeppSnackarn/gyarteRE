@@ -118,7 +118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8135a54400527e4e9db710898b20e79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
+  damage: 12
   range: 1000
   maxAmmo: 8
   timeBetweenShots: 1

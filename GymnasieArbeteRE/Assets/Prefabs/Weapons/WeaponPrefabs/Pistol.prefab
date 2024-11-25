@@ -118,14 +118,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce342869174c14a44b423c340cc61924, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
+  damage: 30
   range: 2000
   maxAmmo: 9
   timeBetweenShots: 1
   reloadTime: 1
-  firingError: 0
+  firingError: 2
   pelletAmount: 1
-  knockbackForce: 10
+  knockbackForce: 3
   forceMode: 1
   currentAmmo: 0
   isActive: 1
