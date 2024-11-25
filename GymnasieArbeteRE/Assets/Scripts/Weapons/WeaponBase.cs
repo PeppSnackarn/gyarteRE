@@ -27,6 +27,7 @@ public class WeaponBase : MonoBehaviour
     private float timeAtLastShot;
     private float timeAtLastReload;
     private bool isReloading;
+    [SerializeField] private bool isActive = false;
     
     //Private variables
     private PlayerData playerData;
@@ -38,7 +39,7 @@ public class WeaponBase : MonoBehaviour
     public bool IsReloading => isReloading;
 
     #endregion
-
+    
     protected virtual void Start()
     {
         playerData = PlayerData.Instance;
@@ -48,13 +49,21 @@ public class WeaponBase : MonoBehaviour
         
         //Binding input
         playerInput.Player.Shoot.performed += Shoot;
+        playerInput.Player.AltShoot.performed += AltShoot;
         playerInput.Player.Reload.performed += Reload;
     }
 
     private void OnDestroy()
     {
         playerInput.Player.Shoot.performed -= Shoot;
+        playerInput.Player.AltShoot.performed -= AltShoot;
         playerInput.Player.Reload.performed -= Reload;
+    }
+    
+    public void SetActiveState(bool state)
+    {
+        isActive = state;
+        gameObject.SetActive(state);
     }
 
     void Shoot(InputAction.CallbackContext ctx)
@@ -87,6 +96,11 @@ public class WeaponBase : MonoBehaviour
                 timeAtLastShot = Time.time + fireRate;
             }
         }
+    }
+
+    protected virtual void AltShoot(InputAction.CallbackContext ctx)
+    {
+        
     }
 
     Vector3 GetShootingDirection()

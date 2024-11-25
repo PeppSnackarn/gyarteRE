@@ -126,13 +126,13 @@ public class PlayerMovement : MonoBehaviour
     }
     void HandleJump(InputAction.CallbackContext ctx)
     {
-        if (rb && bGrounded)
+        if (bGrounded)
         {
             jumpsLeft--;
             Vector3 up = new Vector3(0, 1, 0);
             rb.AddForce(up * jumpForce, ForceMode.Impulse);
         }
-        else if(rb && !bGrounded && jumpsLeft > 1)
+        else if(!bGrounded && jumpsLeft > 1)
         {
             jumpsLeft--;
             Vector3 up = new Vector3(0, 1, 0);

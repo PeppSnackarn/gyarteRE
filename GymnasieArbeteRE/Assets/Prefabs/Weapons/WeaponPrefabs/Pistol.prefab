@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8662142610355086239
+--- !u!1 &4372001312153530744
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,48 +8,48 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3266886702882400902}
-  - component: {fileID: 1069612563097025834}
-  - component: {fileID: 1835712321388732306}
-  - component: {fileID: 1445538436510052874}
-  - component: {fileID: 5647873794654585691}
+  - component: {fileID: 5780710261860663942}
+  - component: {fileID: 6096237497273937006}
+  - component: {fileID: 4784962133946863181}
+  - component: {fileID: 359010634848920616}
+  - component: {fileID: 5662565922757930317}
   m_Layer: 0
-  m_Name: Shotgun
+  m_Name: Pistol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3266886702882400902
+--- !u!4 &5780710261860663942
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8662142610355086239}
+  m_GameObject: {fileID: 4372001312153530744}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.35199928, y: 1.4180002, z: -0.4960003}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.026061, y: 2.2351823, z: 2.5193963}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.44}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &1069612563097025834
+--- !u!33 &6096237497273937006
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8662142610355086239}
+  m_GameObject: {fileID: 4372001312153530744}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &1835712321388732306
+--- !u!23 &4784962133946863181
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8662142610355086239}
+  m_GameObject: {fileID: 4372001312153530744}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 844f284b812b9b04d970d09fd2c7cc5d, type: 2}
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -85,13 +85,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1445538436510052874
+--- !u!65 &359010634848920616
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8662142610355086239}
+  m_GameObject: {fileID: 4372001312153530744}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -100,31 +100,31 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5647873794654585691
+--- !u!114 &5662565922757930317
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8662142610355086239}
+  m_GameObject: {fileID: 4372001312153530744}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8135a54400527e4e9db710898b20e79, type: 3}
+  m_Script: {fileID: 11500000, guid: ce342869174c14a44b423c340cc61924, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
-  range: 1000
-  maxAmmo: 8
-  fireRate: 0.5
+  range: 2000
+  maxAmmo: 9
+  fireRate: 0.4
   reloadTime: 1
-  firingError: 20
-  pelletAmount: 8
+  firingError: 0
+  pelletAmount: 1
   knockbackForce: 10
   forceMode: 1
-  isActive: 1
+  isActive: 0
