@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3266886702882400902
 Transform:
   m_ObjectHideFlags: 0
@@ -121,10 +121,11 @@ MonoBehaviour:
   damage: 10
   range: 1000
   maxAmmo: 8
-  fireRate: 0.5
+  timeBetweenShots: 1
   reloadTime: 1
   firingError: 20
   pelletAmount: 8
   knockbackForce: 10
   forceMode: 1
+  currentAmmo: 0
   isActive: 1

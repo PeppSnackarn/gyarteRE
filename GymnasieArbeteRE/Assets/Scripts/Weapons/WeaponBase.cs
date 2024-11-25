@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class WeaponBase : MonoBehaviour
@@ -11,7 +12,7 @@ public class WeaponBase : MonoBehaviour
     [SerializeField] private int damage = 10;
     [SerializeField] private int range = 1000;
     [SerializeField] private int maxAmmo = 8;
-    [SerializeField] private float fireRate = 1;
+    [SerializeField] private float timeBetweenShots = 1;
     [SerializeField] private float reloadTime = 1;
 
     [Header("Spread & Error Values")]
@@ -22,9 +23,9 @@ public class WeaponBase : MonoBehaviour
     [SerializeField] private float knockbackForce = 10;
     [SerializeField] private ForceMode forceMode = ForceMode.Impulse;
     
-    //Logic
-    private int currentAmmo;
-    private float timeAtLastShot;
+    [Header("Logic")]
+    [SerializeField] private int currentAmmo;
+    private float timeAtNextShot;
     private float timeAtLastReload;
     private bool isReloading;
     [SerializeField] private bool isActive = false;
@@ -46,6 +47,8 @@ public class WeaponBase : MonoBehaviour
         playerCam = playerData.PlayerMovement.playerCam;
         playerInput = GameManager.Instance.playerInput;
         currentAmmo = maxAmmo;
+        if(!isActive)
+            SetActiveState(false);
         
         //Binding input
         playerInput.Player.Shoot.performed += Shoot;
@@ -59,7 +62,7 @@ public class WeaponBase : MonoBehaviour
         playerInput.Player.AltShoot.performed -= AltShoot;
         playerInput.Player.Reload.performed -= Reload;
     }
-    
+
     public void SetActiveState(bool state)
     {
         isActive = state;
@@ -68,7 +71,7 @@ public class WeaponBase : MonoBehaviour
 
     void Shoot(InputAction.CallbackContext ctx)
     {
-        if (Time.time > timeAtLastShot && !isReloading)
+        if (Time.time > timeAtNextShot && !isReloading)
         {
             if (currentAmmo > 0)
             {
@@ -93,7 +96,7 @@ public class WeaponBase : MonoBehaviour
                     playerData.PlayerMovement.rigidbody.AddForce(-playerCam.transform.forward * knockbackForce, forceMode);
                 }
                 currentAmmo--;
-                timeAtLastShot = Time.time + fireRate;
+                timeAtNextShot = Time.time + timeBetweenShots;
             }
         }
     }
@@ -125,7 +128,8 @@ public class WeaponBase : MonoBehaviour
 
     IEnumerator HandleReloadTime()
     {
-        yield return new WaitForSeconds(reloadTime);
+        yield return new WaitForSecondsRealtime(reloadTime);
         currentAmmo = maxAmmo;
+        isReloading = false;
     }
 }

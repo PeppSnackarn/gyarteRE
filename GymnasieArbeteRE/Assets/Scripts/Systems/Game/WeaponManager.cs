@@ -30,11 +30,15 @@ public class WeaponManager : MonoBehaviour
       GameManager.Instance.playerInput.Player.SwitchWeapon.performed += ChangeWeapon;
    }
 
-   public void AddWeaponToList(GameObject weapon)
+   public void AddWeaponToList(WeaponBase weapon)
    {
-      WeaponBase wpn = weapon.GetComponent<WeaponBase>();
-      currentWeapons.Add(wpn);
-      onListUpd.Invoke(weapon);
+      currentWeapons.Add(weapon);
+      foreach (WeaponBase weaponBase in currentWeapons)
+      {
+         weaponBase.SetActiveState(false);
+      }
+      weapon.SetActiveState(true);
+      currentEquippedWeaponIndex = currentWeapons.Count - 1;
    }
    public void ClearList()
    {
@@ -44,6 +48,7 @@ public class WeaponManager : MonoBehaviour
    {
       GameObject obj = Instantiate(weapon, PlayerData.Instance.HandPos, weapon.transform.rotation); // Wrong rotation
       obj.transform.SetParent(PlayerData.Instance.Hand);
+      AddWeaponToList(obj.GetComponent<WeaponBase>());
    }
 
    private void ChangeWeapon(InputAction.CallbackContext ctx)

@@ -28,7 +28,7 @@ public class WeaponPickups : MonoBehaviour
     {
         if (other.GetComponentInParent<PlayerData>())
         {
-           WeaponManager.Instance.AddWeaponToList(weaponPrefab);
+           WeaponManager.Instance.InstantiateWeapon(weaponPrefab);
            Destroy(gameObject);
         }
     }

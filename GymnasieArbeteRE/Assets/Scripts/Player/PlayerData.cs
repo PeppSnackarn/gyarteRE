@@ -8,17 +8,13 @@ public class PlayerData : MonoBehaviour
     public static PlayerData Instance;
     private PlayerMovement playerMovement;
     private HealthSystem playerHealth;
-    private WeaponManager weaponManager;
     [SerializeField] private Transform hand; 
 
     #region Properties
 
     public PlayerMovement PlayerMovement => playerMovement;
     public HealthSystem PlayerHealth => playerHealth;
-    public WeaponManager WeaponManager => weaponManager;
-
     public Vector3 HandPos => hand.position;
-
     public Transform Hand => hand;
 
     #endregion
@@ -37,13 +33,11 @@ public class PlayerData : MonoBehaviour
     private void OnDestroy()
     {
         Instance = null;
-        if(weaponManager)
-            weaponManager.ClearList();
+        WeaponManager.Instance.ClearList();
     }
     private void Start()
     {
         playerMovement = GetComponent<PlayerMovement>();
         playerHealth = GetComponent<HealthSystem>();
-        weaponManager = GetComponentInChildren<WeaponManager>();
     }
 }

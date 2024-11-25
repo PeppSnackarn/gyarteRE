@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5780710261860663942
 Transform:
   m_ObjectHideFlags: 0
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 99e1f73413c0ef8458d681b9a9d8fc60, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -121,10 +121,11 @@ MonoBehaviour:
   damage: 10
   range: 2000
   maxAmmo: 9
-  fireRate: 0.4
+  timeBetweenShots: 1
   reloadTime: 1
   firingError: 0
   pelletAmount: 1
   knockbackForce: 10
   forceMode: 1
-  isActive: 0
+  currentAmmo: 0
+  isActive: 1
